@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Laporan Perangkap Kumbang Tanduk</title>
+  <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: url('https://images.unsplash.com/photo-1622375869996-bef3dc7ee7b1?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(64, 224, 208, 0.6);
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #006400;
+      text-align: center;
+      font-family: 'Metal Mania', cursive;
+      font-size: 40px;
+    }
+
+    .item {
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .label {
+      display: none;
+    }
+
+    #tanggal {
+      color: black;
+      display: block;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    details {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-family: 'Metal Mania', cursive;
+    }
+
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      font-family: 'Metal Mania', cursive;
+      color: black;
+    }
+
+    summary::before {
+      content: "\f188  ";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      margin-right: 6px;
+      color: #000;
+    }
+
+    .serial-box {
+      background-color: #000;
+      color: #0f0;
+      padding: 15px;
+      margin-top: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    #chart-container {
+      margin-top: 30px;
+    }
+
+    canvas {
+      background-color: rgba(64, 224, 208, 0.7);
+      border-radius: 12px;
+      padding: 10px;
+      max-height: 250px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .whatsapp {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .whatsapp i {
+      margin-right: 6px;
+      color: #25D366;
+    }
+
+    .instagram i {
+      margin-left: 16px;
+      margin-right: 6px;
+      color: #E1306C;
+    }
+
+    .blogger i {
+      margin-left: 16px;
+      margin-right: 6px;
+      color: #f57d00;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>Laporan Perangkap Kumbang Tanduk</h1>
+
+    <div class="item">
+      <span id="tanggal"></span>
+    </div>
+
+    <details>
+      <summary>Perangkap 1</summary>
+      <div class="serial-box">
+[Serial Monitor]
+Kumbang Terdeteksi!
+Waktu: 07:14:23
+Jumlah Kumbang Hari Ini: 1
+Sisa Feromon: 8900 mg
+      </div>
+    </details>
+
+    <details>
+      <summary>Perangkap 2</summary>
+      <div class="serial-box">
+[Serial Monitor]
+Kumbang Terdeteksi!
+Waktu: 12:42:10
+Jumlah Kumbang Hari Ini: 1
+Sisa Feromon: 8730 mg
+      </div>
+    </details>
+
+    <details>
+      <summary>Perangkap 3</summary>
+      <div class="serial-box">
+[Serial Monitor]
+Kumbang Terdeteksi!
+Waktu: 02:03:55
+Jumlah Kumbang Hari Ini: 1
+Sisa Feromon: 8650 mg
+      </div>
+    </details>
+
+    <div id="chart-container">
+      <h2 style="text-align:center; font-size: 18px; color: #006400; font-family: 'Metal Mania', cursive;">Grafik Bulanan Tangkapan Kumbang</h2>
+      <canvas id="grafikBulanan"></canvas>
+    </div>
+
+    <footer>
+      Sistem Perangkap Otomatis Berbasis IoT Dimas&Diana © 2025
+      <div class="whatsapp">
+        <a href="https://wa.me/6285185472025" target="_blank" style="color: inherit; text-decoration: none;">
+          <i class="fab fa-whatsapp"></i>085185472025
+        </a>
+        <span class="instagram">
+          <a href="https://instagram.com/irvanads" target="_blank" style="color: inherit; text-decoration: none;">
+            <i class="fab fa-instagram"></i>@irvanads
+          </a>
+        </span>
+        <span class="blogger">
+          <a href="https://14dimas.blogspot.com" target="_blank" style="color: inherit; text-decoration: none;">
+            <i class="fab fa-blogger"></i>14dimas.blogspot.com
+          </a>
+        </span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const now = new Date();
+    const tanggal = now.toLocaleDateString('id-ID', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+    document.getElementById("tanggal").innerText = tanggal;
+
+    const labels = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul"];
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          label: "Perangkap 1",
+          borderColor: "red",
+          backgroundColor: "rgba(255, 0, 0, 0.1)",
+          data: [3, 5, 7, 4, 6, 2, 8],
+          tension: 0.3,
+          fill: true
+        },
+        {
+          label: "Perangkap 2",
+          borderColor: "blue",
+          backgroundColor: "rgba(0, 0, 255, 0.1)",
+          data: [2, 4, 6, 3, 5, 1, 6],
+          tension: 0.3,
+          fill: true
+        },
+        {
+          label: "Perangkap 3",
+          borderColor: "white",
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          data: [1, 3, 4, 2, 3, 2, 5],
+          tension: 0.3,
+          fill: true
+        }
+      ]
+    };
+
+    const config = {
+      type: "line",
+      data: data,
+      options: {
+        responsive: true,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        stacked: false,
+        plugins: {
+          tooltip: {
+            mode: 'index',
+            intersect: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Jumlah Tangkapan"
+            }
+          }
+        }
+      }
+    };
+
+    new Chart(
+      document.getElementById("grafikBulanan"),
+      config
+    );
+  </script>
+</body>
+</html>
